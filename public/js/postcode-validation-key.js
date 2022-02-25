@@ -29,51 +29,34 @@
      * practising this, we should strive to set a better example in our own work.
      */
 
-    $(document).on('click', '#postal-code-confirm', function(e) {
-        e.preventDefault();
-        alert("hi ok");
+    $(document).on('keydown', 'input', function() {
+        /*Your code*/
 
+        var $inputkeyval = $('#postal-code-popup').val();
 
-
-        //console.log(itechsin_obj.ajax_url);
-
-        var $thisbutton = $(this);
         var data = {
-            value: $("#postal-code-popup").val(),
-            action: itechsin_obj.action,
-            security: itechsin_obj.security
+            value: $inputkeyval,
+            action: itechk_obj.action,
+            security: itechk_obj.security
         };
-
 
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: itechsin_obj.ajax_url,
+            url: itechk_obj.ajax_url,
             data: data,
-            beforeSend: function(response) {
-                $thisbutton.removeClass('added').addClass('loading');
-            },
-            complete: function(response) {
-                $thisbutton.addClass('added').removeClass('loading');
-            },
             success: function(response) {
 
-                // if (response.error && response.product_url) {
-                //     window.location = response.product_url;
-                //     return;
-                // } else {
-                //     $(document.body).trigger('added_to_cart', [response.fragments, response.cart_hash, $thisbutton]);
-                // }
-
-                if (response["data"]["exists"]["insert"] == 'done') {
-                    alert("hi");
-                    $("#post-code-modal").remove();
+                if (response["data"]["exists"]["insert"] != 'done') {
+                    $("#post-code-modal span.error").removeClass("display-hidden");
+                } else if (response["data"]["exists"] == '') {
+                    $("#post-code-modal span.error").removeClass("display-hidden");
+                } else {
+                    $("#post-code-modal span.error").addClass("display-hidden");
                 }
                 //console.log(response);
             },
         });
-
-        return false;
     });
 
 })(jQuery);

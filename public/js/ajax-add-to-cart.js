@@ -69,7 +69,7 @@
                 }
 
                 if (response["success"] == true) {
-                    $form.prepend(response['data']['outputHtml']);
+                    $form.prepend(response['data']);
                 }
             },
         });

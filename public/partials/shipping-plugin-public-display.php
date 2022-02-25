@@ -48,8 +48,14 @@ class ShippingZone {
 
 
 
-          $return_success = array(
-            'outputHtml' => '<div id="add-to-cart-modal" class="modal" style="display: block;">
+          $params = array(
+            'p' => $product_id,
+            'post_type' => 'product'
+           );
+           $wc_query = new WP_Query($params); 
+           $outputHtml = "";
+          
+            $outputHtml .='<div id="add-to-cart-modal" class="modal" style="display: block;">
             <div class="modal-dialog" role="document">
               <!-- Modal content -->
               <div class="modal-content" role="modal">
@@ -60,16 +66,21 @@ class ShippingZone {
                   <div class="row">
                     <div class="col-md-12">
                       <h3 class="vertical-margin-small"><strong>Great Choice!</strong></h3>
-                      <p>Your item has been added to the cart </p>
-                      <div class="row">
-                           <img id="cart-image" width="280px" height="auto" alt="Julian Sofa - Teal" src="//cdn.shopify.com/s/files/1/2660/5106/products/lnp7vkxqnfy6jthnnvln_9cf8c7c0-2600-48ca-b81e-37d551f06aef_large.jpg?v=1611258035">
-                           <div id="cart-item-title"><p><strong>Julian Sofa - Teal</strong></p></div><div id="free-local-del-bal" style="display: block;"><hr class="lineseperator-top" style="width: 75%" ;=""><img width="78px" alt="leons-truck" src="//cdn.shopify.com/s/files/1/0003/9252/7936/files/leons_truck_logo.png?18062638485242518589"><div class="alert  custom-alert-cart-popup text-center margin-left-large margin-right-large" role="alert"><strong style="color: #008a00;"><span class="free-local-del-text" style=" color: #008a00;"><i class="far fa-thumbs-up thumbs-up"></i>&nbsp;Congratulations!&nbsp;</span><span class="free-local-del-text" style="color: #008a00;">Your order qualifies for</span> <span class="free-local-del-text">Free Local Delivery<sup>*</sup>.</span></strong><p class="disclaimer"> <sup>*</sup>Conditions may change in cart</p></div></div>
-                      </div>
-                    </div>
+                      <p>Your item has been added to the cart </p>';
+                      if ($wc_query->have_posts()) :
+                        while ($wc_query->have_posts()) : $wc_query->the_post();
+                        $image = wp_get_attachment_image_src( get_post_thumbnail_id( $product_id ), 'single-post-thumbnail' );
+                        $outputHtml .='<div class="row">
+                           <img id="cart-image" width="280px" height="auto" alt="'.get_the_title().'" src="'.$image[0].'">
+                           <div id="cart-item-title"><p><strong>'.get_the_title().'</strong></p></div><div id="free-local-del-bal" style="display: block;"><hr class="lineseperator-top" style="width: 75%" ;=""><img width="78px" alt="leons-truck" src="//cdn.shopify.com/s/files/1/0003/9252/7936/files/leons_truck_logo.png?18062638485242518589"><div class="alert  custom-alert-cart-popup text-center margin-left-large margin-right-large" role="alert"><strong style="color: #008a00;"><span class="free-local-del-text" style=" color: #008a00;"><i class="far fa-thumbs-up thumbs-up"></i>&nbsp;Congratulations!&nbsp;</span><span class="free-local-del-text" style="color: #008a00;">Your order qualifies for</span> <span class="free-local-del-text">Free Local Delivery<sup>*</sup>.</span></strong><p class="disclaimer"> <sup>*</sup>Conditions may change in cart</p></div></div>
+                      </div>';
+                      endwhile;
+                    endif;
+                      $outputHtml .='</div>
                     <div class="col-md-12">
                       <div class="row vertical-margin-small">
                           <div class="col-xs-12">
-                              <a class="btn bg-green proceed" href="http://localhost/wordpresswoo/cart/">Proceed to Cart<span class="fa fa-chevron-right" aria-hidden="true"></span></a>
+                              <a class="btn bg-green proceed" href="'.wc_get_cart_url().'">Proceed to Cart<span class="fa fa-chevron-right" aria-hidden="true"></span></a>
                           </div>
                       </div>
                       <div class="row vertical-margin-small">
@@ -86,10 +97,9 @@ class ShippingZone {
                 </div>
                 <!-- Modal End-->
                 </div>
-                </div>',
-        );
+                </div>';
 
-        wp_send_json_success( $return_success );
+        wp_send_json_success( $outputHtml );
 
 
 
@@ -184,7 +194,7 @@ class ShippingZone {
   public function shipping_sin_callback(){
 
 
-    if ( ! isset( $_POST ) || ! isset( $_POST['security'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['security'] ) ), 'shipping_login_nonce' ) ) {
+    if ( ! isset( $_POST ) || ! isset( $_POST['security'] ) ) {
       wp_send_json_error( 'Invalid data / security token sent.' );
       wp_die();
     } else {
@@ -195,59 +205,191 @@ class ShippingZone {
 
       $response = array();
 
-    if (class_exists('WC_Shipping_Zones')) {
-      $zones = WC_Shipping_Zones::get_zones();
+            if (class_exists('WC_Shipping_Zones')) {
+              $zones = WC_Shipping_Zones::get_zones();
 
-      //var_dump($zones);
+              //var_dump($zones);
 
-      if (!empty($zones)) {
-          foreach ($zones as $zone_id => $zone) {
-            
-            // echo '<pre>';
-            // var_dump($zone);
-            // echo '</pre>';
-            
-            //var_dump($zone['zone_locations']);
+              if (!empty($zones)) {
+                  foreach ($zones as $zone_id => $zone) {
+                    
+                    // echo '<pre>';
+                    // var_dump($zone);
+                    // echo '</pre>';
+                    
+                    //var_dump($zone['zone_locations']);
 
-              if (!empty($zone['zone_locations'])) {
+                      if (!empty($zone['zone_locations'])) {
 
-                
+                        
 
-                foreach ($zone['zone_locations'] as $key => $code) {
-                  $act_id = null;
-                  //var_dump($key);
-                  //var_dump($code->code);
+                        foreach ($zone['zone_locations'] as $key => $code) {
+                          $act_id = null;
+                          //var_dump($key);
+                          //var_dump($code->code);
 
-            $subtval = substr($code->code,0,3);
-//var_dump($subtval);
-                  if( $datain == $subtval ){
-                    $act_id = $subtval;
-                    if($act_id === $datain ){
-                      $response['insert'] = "done";
-                      $set_cookie = setcookie( $this->cookie_name, 'true', time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
-                    }else{
-                      $response['insert'] = "no";
-                    };
-                    break;
+                    $subtval = substr($code->code,0,3);
+                //var_dump($subtval);
+                          if( $datain == $subtval ){
+                            $act_id = $subtval;
+                            if($act_id === $datain ){
+                              $response['insert'] = "done";
+                              $set_cookie = setcookie( $this->cookie_name, 'true', time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
+                            }else{
+                              $response['insert'] = "no";
+                            };
+                            break;
+                          }
+                            //$this->code[] = $code;
+                            //var_dump($code);
+                        }
+                      }
                   }
-                    //$this->code[] = $code;
-                    //var_dump($code);
-                }
+              } else {
+                  $zone = new WC_Shipping_Zone(0);
+                  $this->shipping_zone_methods = $zone->get_shipping_methods();
               }
-          }
-      } else {
-          $zone = new WC_Shipping_Zone(0);
-          $this->shipping_zone_methods = $zone->get_shipping_methods();
-      }
     }
 
-    }
+  }
+
     $return_success = array(
       'exists' => $response,
     );
     wp_send_json_success( $return_success );
     wp_die();
-  }
+}
 
+
+  
+		function checkout_country_fields_disabled( $fields ) {
+			$fields['billing']['billing_country']['custom_attributes']['disabled'] = 'disabled';
+			$fields['billing']['shipping_country']['custom_attributes']['disabled'] = 'disabled';
+		
+			return $fields;
+		}
+		
+		
+		
+		function readdonly_country_select_field( $fields ) {
+			// Set billing and shipping state to AU
+			//WC()->customer->set_billing_state('state');
+		   
+			// Make billing and shipping country field read only
+			$fields['billing']['billing_state']['custom_attributes'] = array( 'disabled' => 'disabled' );
+			
+			return $fields;
+		}
+
+
+
+    function shing_n_clback() {
+     
+      if ( ! isset( $_POST ) || ! isset( $_POST['security'] ) ) {
+        wp_send_json_error( 'Invalid data / security token sent.' );
+        wp_die();
+      } else {
+
+
+        $datain = substr($_POST['value'],0,3);
+        //var_dump($datain);
+  
+        $response = array();
+  
+              if (class_exists('WC_Shipping_Zones')) {
+                $zones = WC_Shipping_Zones::get_zones();
+  
+                //var_dump($zones);
+  
+                if (!empty($zones)) {
+                    foreach ($zones as $zone_id => $zone) {
+                      
+                      // echo '<pre>';
+                      // var_dump($zone);
+                      // echo '</pre>';
+                      
+                      //var_dump($zone['zone_locations']);
+  
+                        if (!empty($zone['zone_locations'])) {
+  
+                          
+  
+                          foreach ($zone['zone_locations'] as $key => $code) {
+                            $act_id = null;
+                            //var_dump($key);
+                            //var_dump($code->code);
+  
+                      $subtval = substr($code->code,0,3);
+                  //var_dump($subtval);
+                            if( $datain == $subtval ){
+                              $act_id = $subtval;
+                              if($act_id === $datain ){
+                                $response['insert'] = "done";
+                                
+                              }else{
+                                $response['insert'] = "no";
+                              };
+                              break;
+                            }
+                              //$this->code[] = $code;
+                              //var_dump($code);
+                          }
+                        }
+                    }
+                } else {
+                    $zone = new WC_Shipping_Zone(0);
+                    $this->shipping_zone_methods = $zone->get_shipping_methods();
+                }
+      }
+  
+    }
+      $return_success = array(
+        'exists' => $response,
+      );
+      wp_send_json_success( $return_success );
+      wp_die();
+      
+    }
+
+
+    function get_cookie_redirect(){
+      if( ! isset($_COOKIE['postal-code-confirmed']) && is_checkout() ) {
+        $cart_url = wc_get_cart_url();
+        wp_redirect( $cart_url );
+      }
+    }
+
+
+//     function redirect_page() {
+
+//       if (isset($_SERVER['HTTPS']) &&
+//          ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
+//          isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+//          $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+//          $protocol = 'https://';
+//          }
+//          else {
+//          $protocol = 'http://';
+//      }
+ 
+//      $currenturl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+//      $currenturl_relative = wp_make_link_relative($currenturl);
+ 
+//      switch ($currenturl_relative) {
+     
+//          case '[/checkout/]':
+//              $urlto = home_url('[/cart/]');
+//              break;
+         
+//          default:
+//              return;
+     
+//      }
+     
+//      if ($currenturl != $urlto)
+//          exit( wp_redirect( $urlto ) );
+
+//  }
+ 
 
 }
