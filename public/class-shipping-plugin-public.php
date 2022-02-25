@@ -103,31 +103,23 @@ class Shipping_Plugin_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/shipping-plugin-public.js', array( 'jquery' ), $this->version, false );
-
 		if ( function_exists( 'is_product' ) && is_product() ) {
 			wp_enqueue_script( 'woocommerce-ajax-add-to-cart', plugin_dir_url( __FILE__ ) . 'js/ajax-add-to-cart.js', array( 'jquery' ), '', true );
-
-		wp_localize_script(
-			'woocommerce-ajax-add-to-cart',
-			'itechaddc_obj',
-			array(
-				'action'   => 'woocommerce_ajax_add_to_cart',
-			)
-		);
 		}
+
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/shipping-plugin-public.js', array( 'jquery' ), $this->version, false );
 
 		if ( ( function_exists( 'is_cart' ) && is_cart() ) || ( function_exists( 'is_checkout' ) && is_checkout() ) ) {
 			wp_enqueue_script( 'woocommerce-postalcode', plugin_dir_url( __FILE__ ) . 'js/postcode-validation.js', array( 'jquery' ), '', true );
 		}
 
-		$ajax_nonce = wp_create_nonce( 'itech_postal_nonce' );
+		$ajax_nonce = wp_create_nonce( 'shipping_login_nonce' );
 		wp_localize_script(
 			'woocommerce-postalcode',
 			'itechsin_obj',
 			array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'action'   => 'itechpublic_sin_callback',
+				'action'   => 'shipping_sin_callback',
 				'security' => $ajax_nonce,
 			)
 		);
@@ -142,15 +134,15 @@ class Shipping_Plugin_Public {
 	 */
 	public function dispatch_actions( $data ) {
 
-		//add_action('wp_head', array( $data, 'cart_page_validation' ) );
+		add_action('wp_head', array( $data, 'cart_page_validation' ) );
 		
 		//add_filter( 'woocommerce_add_to_cart_validation', array( $data, 'so_validate_add_cart_item' ), 10, 5 );
 
 		add_action( 'wp_ajax_woocommerce_ajax_add_to_cart', array( $data,  'woocommerce_ajax_add_to_cart' ) );
 		add_action( 'wp_ajax_nopriv_woocommerce_ajax_add_to_cart', array( $data, 'woocommerce_ajax_add_to_cart' ) );
 
-		add_action( 'wp_ajax_itechpublic_sin_callback', array( $data, 'itechpublic_sin_callback' ) );
-		add_action( 'wp_ajax_nopriv_itechpublic_sin_callback', array( $data, 'itechpublic_sin_callback' ) );
+		add_action( 'wp_ajax_shipping_sin_callback', array( $data, 'shipping_sin_callback' ) );
+		add_action( 'wp_ajax_nopriv_shipping_sin_callback', array( $data, 'shipping_sin_callback' ) );
 
 	}
 

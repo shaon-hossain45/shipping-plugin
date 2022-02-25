@@ -65,9 +65,11 @@
                 //     $(document.body).trigger('added_to_cart', [response.fragments, response.cart_hash, $thisbutton]);
                 // }
 
-                if (response["success"] == true) {
+                if (response["data"]["exists"]["insert"] == 'done') {
                     alert("hi");
-                    //$(".woocommerce-product-details__short-description").html(response['data']['outputHtml']);
+                    $("#post-code-modal").remove();
+                } else {
+
                 }
                 console.log(response);
             },
