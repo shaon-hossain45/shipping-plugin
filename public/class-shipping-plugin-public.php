@@ -46,13 +46,13 @@ class Shipping_Plugin_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string $plugin_name       The name of the plugin.
+	 * @param      string $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
 		/**
 		 * ShippingZone Hooks class
@@ -147,26 +147,24 @@ class Shipping_Plugin_Public {
 	 */
 	public function dispatch_actions( $data ) {
 
-		add_action('wp_head', array( $data, 'cart_page_validation' ) );
-		
-		//add_filter( 'woocommerce_add_to_cart_validation', array( $data, 'so_validate_add_cart_item' ), 10, 5 );
+		add_action( 'wp_head', array( $data, 'cart_page_validation' ) );
 
-		add_action( 'wp_ajax_woocommerce_ajax_add_to_cart', array( $data,  'woocommerce_ajax_add_to_cart' ) );
+		// add_filter( 'woocommerce_add_to_cart_validation', array( $data, 'so_validate_add_cart_item' ), 10, 5 );
+
+		add_action( 'wp_ajax_woocommerce_ajax_add_to_cart', array( $data, 'woocommerce_ajax_add_to_cart' ) );
 		add_action( 'wp_ajax_nopriv_woocommerce_ajax_add_to_cart', array( $data, 'woocommerce_ajax_add_to_cart' ) );
 
 		add_action( 'wp_ajax_shipping_sin_callback', array( $data, 'shipping_sin_callback' ) );
 		add_action( 'wp_ajax_nopriv_shipping_sin_callback', array( $data, 'shipping_sin_callback' ) );
 
-
 		add_action( 'wp_ajax_shing_n_clback', array( $data, 'shing_n_clback' ) );
 		add_action( 'wp_ajax_nopriv_shing_n_clback', array( $data, 'shing_n_clback' ) );
 
-		add_filter( 'woocommerce_checkout_fields' , array( $data, 'checkout_country_fields_disabled' ) );
-		add_filter( 'woocommerce_checkout_fields' , array( $data, 'readdonly_country_select_field' ) );
-		
-		add_action('wp_head', array( $data, 'get_cookie_redirect' ) );
-		//add_action( 'template_redirect', array( $data, 'redirect_page' ) );
-		
+		add_filter( 'woocommerce_checkout_fields', array( $data, 'checkout_country_fields_disabled' ) );
+		add_filter( 'woocommerce_checkout_fields', array( $data, 'readdonly_country_select_field' ) );
+
+		add_action( 'wp_head', array( $data, 'get_cookie_redirect' ) );
+		// add_action( 'template_redirect', array( $data, 'redirect_page' ) );
 	}
 
 }
