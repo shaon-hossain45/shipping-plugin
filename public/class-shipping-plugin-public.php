@@ -166,20 +166,22 @@ class Shipping_Plugin_Public {
 		// add_filter( 'woocommerce_checkout_fields', array( $data, 'checkout_country_fields_disabled' ) );
 		// add_filter( 'woocommerce_checkout_fields', array( $data, 'readdonly_country_select_field' ) );
 
-		add_filter( 'default_checkout_billing_country', array( $data, 'change_default_checkout_country' ) );
-		add_filter( 'default_checkout_billing_state', array( $data, 'change_default_checkout_state' ) );
+		//add_filter( 'default_checkout_billing_country', array( $data, 'change_default_checkout_country' ) );
+		//add_filter( 'default_checkout_billing_state', array( $data, 'change_default_checkout_state' ) );
 
-		add_filter( 'default_checkout_shipping_country', array( $data, 'change_default_checkout_country' ) );
-		add_filter( 'default_checkout_shipping_state', array( $data, 'change_default_checkout_state' ) );
+		//add_filter( 'default_checkout_shipping_country', array( $data, 'change_default_checkout_country' ) );
+		//add_filter( 'default_checkout_shipping_state', array( $data, 'change_default_checkout_state' ) );
 
 		// add_filter( 'woocommerce_billing_fields', array( $data, 'ts_unrequire_wc_country_field') );
 		// add_filter( 'woocommerce_default_address_fields' , array( $data, 'make_state_field_required'), 90, 1 );
 
-		add_filter( 'woocommerce_form_field_country', array( $data, 'filter_form_field_country' ), 10, 4 );
+		//add_filter( 'woocommerce_form_field_country', array( $data, 'filter_form_field_country' ), 10, 4 );
 
 		// add_filter( 'woocommerce_process_checkout_field_billing_country', array( $data, 'fix_default_billing_country' ), 10, 1 );
 		// add_filter('woocommerce_checkout_fields', array( $data, 'njengah_override_checkout_fields') );
 		add_action( 'wp_head', array( $data, 'get_cookie_redirect' ) );
+
+		add_filter( 'woocommerce_checkout_fields' , array( $data, 'bbloomer_change_address_input_type' ), 10, 1 );
 
 	}
 

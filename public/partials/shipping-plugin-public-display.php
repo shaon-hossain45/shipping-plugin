@@ -400,6 +400,35 @@ class ShippingZone {
 	}
 
 
+
+/**
+ * @snippet       Change Input Field to Textarea @ WooCommerce Checkout
+ * @how-to        Get CustomizeWoo.com FREE
+ * @sourcecode    https://businessbloomer.com/?p=19122
+ * @author        Rodolfo Melogli
+ * @compatible    WooCommerce 2.4.7
+ */
+ 
+// Change address field at checkout
+
+function bbloomer_change_address_input_type( $fields ) {
+$fields['billing']['billing_country'] = array(
+	'type' => 'select',
+	'label' => __('Country / Region'),
+	'required' => true,
+	'options' => array('CA' => 'Canada')
+);
+$fields['billing']['billing_state'] = array(
+	'type' => 'select',
+	'label' => __('Country / Region'),
+	'required' => true,
+	'options' => array('ON' => 'Ontario')
+);
+return $fields;
+}
+
+
+
 	/**
 	 * Cart page callback
 	 *
