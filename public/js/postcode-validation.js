@@ -46,6 +46,12 @@
 
         var pageURL = $(location).attr("href");
         //alert(pageURL);
+        var today = new Date();
+        today.setDate(today.getDate() + 15);
+        var getDay = today.getDate();
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var getMonth = today.getMonth();
+        getMonth = monthNames[getMonth];
 
         $.ajax({
             type: "POST",
@@ -59,12 +65,15 @@
                 $thisbutton.addClass('added').removeClass('loading');
             },
             success: function(response) {
-                if (response["data"]["exists"]["insert"] == 'done') {
+                if (response["data"]["exists"]["insert"] == 'windsor') {
                     //alert("hi");
                     //$("#post-code-modal").remove();
                     $(".modal-content").html('<div><div class="success-info"><h3>We deliver to your area and your expected delivery time is between 24 to 48 hours.</h3></div><div class="close-cartback"><a class="btn bg-green proceed" href="' + pageURL + '">Proceed to Cart<span class="fa fa-chevron-right" aria-hidden="true"></span></a></div></div>');
+                } else if (response["data"]["exists"]["insert"] == 'ontario') {
+                    $(".modal-content").html('<div><div class="success-info"><h3>Due to the high demand on our products, this item is expected to be delivered after (' + getDay + ' ' + getMonth + ').</h3></div><div class="close-cartback"><a class="btn bg-green proceed" href="' + pageURL + '">Proceed to Cart<span class="fa fa-chevron-right" aria-hidden="true"></span></a></div></div>');
                 } else {
-                    $(".modal-content").html('<div><div class="success-info"><h3>Due to the high demand on our products, this item is expected to be delivered after (Add 15 days on the current datetime function).</h3></div><div class="close-cartback"><a class="btn bg-green proceed" href="' + pageURL + '">Proceed to Cart<span class="fa fa-chevron-right" aria-hidden="true"></span></a></div></div>');
+                    //$("#post-code-modal").remove();
+                    $("#post-code-modal span.error").removeClass("display-hidden");
                 }
                 //console.log(response);
             },

@@ -239,18 +239,25 @@ class ShippingZone {
 								$act_id = null;
 								// var_dump($key);
 								// var_dump($code->code);
-
+								// $windsor = array(""","","","","","","","");
 								$subtval = substr( $code->code, 0, 3 );
 								// var_dump($subtval);
 								if ( $datain == $subtval ) {
 									$act_id = $subtval;
-									if ( $act_id === $datain ) {
-										$response['insert'] = 'done';
+
+									if ( ( $act_id === $datain ) && ( ( $act_id === 'N8P' ) || ( $act_id === 'N8R' ) || ( $act_id === 'N8S' ) || ( $act_id === 'N8T' ) || ( $act_id === 'N8W' ) || ( $act_id === 'N9B' ) || ( $act_id === 'N9G' ) || ( $act_id === 'N9E' ) || ( $act_id === 'N8Y' ) || ( $act_id === 'N8X' ) ) ) {
+										$response['insert'] = 'windsor';
+										$set_cookie         = setcookie( $this->cookie_name, 'true', time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
+									} elseif ( $act_id === $datain ) {
+										$response['insert'] = 'ontario';
 										$set_cookie         = setcookie( $this->cookie_name, 'true', time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
 									} else {
 										$response['insert'] = 'no';
 									};
+
 									break;
+								}else{
+									$response['insert'] = 'fo';
 								}
 								// $this->code[] = $code;
 								// var_dump($code);
@@ -402,65 +409,65 @@ class ShippingZone {
 	 */
 	// public function shing_n_clback() {
 
-	// 	if ( ! isset( $_POST ) || ! isset( $_POST['security'] ) ) {
-	// 		wp_send_json_error( 'Invalid data / security token sent.' );
-	// 		wp_die();
-	// 	} else {
+	// if ( ! isset( $_POST ) || ! isset( $_POST['security'] ) ) {
+	// wp_send_json_error( 'Invalid data / security token sent.' );
+	// wp_die();
+	// } else {
 
-	// 		$datain = substr( $_POST['value'], 0, 3 );
-	// 		// var_dump($datain);
+	// $datain = substr( $_POST['value'], 0, 3 );
+	// var_dump($datain);
 
-	// 		$response = array();
+	// $response = array();
 
-	// 		if ( class_exists( 'WC_Shipping_Zones' ) ) {
-	// 			$zones = WC_Shipping_Zones::get_zones();
+	// if ( class_exists( 'WC_Shipping_Zones' ) ) {
+	// $zones = WC_Shipping_Zones::get_zones();
 
-	// 			// var_dump($zones);
+	// var_dump($zones);
 
-	// 			if ( ! empty( $zones ) ) {
-	// 				foreach ( $zones as $zone_id => $zone ) {
+	// if ( ! empty( $zones ) ) {
+	// foreach ( $zones as $zone_id => $zone ) {
 
-	// 					// echo '<pre>';
-	// 					// var_dump($zone);
-	// 					// echo '</pre>';
+	// echo '<pre>';
+	// var_dump($zone);
+	// echo '</pre>';
 
-	// 					// var_dump($zone['zone_locations']);
+	// var_dump($zone['zone_locations']);
 
-	// 					if ( ! empty( $zone['zone_locations'] ) ) {
+	// if ( ! empty( $zone['zone_locations'] ) ) {
 
-	// 						foreach ( $zone['zone_locations'] as $key => $code ) {
-	// 							$act_id = null;
-	// 							// var_dump($key);
-	// 							// var_dump($code->code);
+	// foreach ( $zone['zone_locations'] as $key => $code ) {
+	// $act_id = null;
+	// var_dump($key);
+	// var_dump($code->code);
 
-	// 							$subtval = substr( $code->code, 0, 3 );
-	// 							// var_dump($subtval);
-	// 							if ( $datain == $subtval ) {
-	// 								$act_id = $subtval;
-	// 								if ( $act_id === $datain ) {
-	// 									$response['insert'] = 'done';
+	// $subtval = substr( $code->code, 0, 3 );
+	// var_dump($subtval);
+	// if ( $datain == $subtval ) {
+	// $act_id = $subtval;
+	// if ( $act_id === $datain ) {
+	// $response['insert'] = 'done';
 
-	// 								} else {
-	// 									$response['insert'] = 'no';
-	// 								};
-	// 								break;
-	// 							}
-	// 							// $this->code[] = $code;
-	// 							// var_dump($code);
-	// 						}
-	// 					}
-	// 				}
-	// 			} else {
-	// 				$zone                        = new WC_Shipping_Zone( 0 );
-	// 				$this->shipping_zone_methods = $zone->get_shipping_methods();
-	// 			}
-	// 		}
-	// 	}
-	// 	$return_success = array(
-	// 		'exists' => $response,
-	// 	);
-	// 	wp_send_json_success( $return_success );
-	// 	wp_die();
+	// } else {
+	// $response['insert'] = 'no';
+	// };
+	// break;
+	// }
+	// $this->code[] = $code;
+	// var_dump($code);
+	// }
+	// }
+	// }
+	// } else {
+	// $zone                        = new WC_Shipping_Zone( 0 );
+	// $this->shipping_zone_methods = $zone->get_shipping_methods();
+	// }
+	// }
+	// }
+	// $return_success = array(
+	// 'exists' => $response,
+	// );
+	// wp_send_json_success( $return_success );
+	// wp_die();
 
 	// }
 
