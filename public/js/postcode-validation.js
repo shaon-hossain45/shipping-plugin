@@ -31,7 +31,7 @@
 
     $(document).on('click', '#postal-code-confirm', function(e) {
         e.preventDefault();
-        alert("hi ok");
+        //alert("hi ok");
 
 
 
@@ -44,6 +44,8 @@
             security: itechsin_obj.security
         };
 
+        var pageURL = $(location).attr("href");
+        //alert(pageURL);
 
         $.ajax({
             type: "POST",
@@ -57,17 +59,12 @@
                 $thisbutton.addClass('added').removeClass('loading');
             },
             success: function(response) {
-
-                // if (response.error && response.product_url) {
-                //     window.location = response.product_url;
-                //     return;
-                // } else {
-                //     $(document.body).trigger('added_to_cart', [response.fragments, response.cart_hash, $thisbutton]);
-                // }
-
                 if (response["data"]["exists"]["insert"] == 'done') {
-                    alert("hi");
-                    $("#post-code-modal").remove();
+                    //alert("hi");
+                    //$("#post-code-modal").remove();
+                    $(".modal-content").html('<div><div class="success-info"><h3>We deliver to your area and your expected delivery time is between 24 to 48 hours.</h3></div><div class="close-cartback"><a class="btn bg-green proceed" href="' + pageURL + '">Proceed to Cart<span class="fa fa-chevron-right" aria-hidden="true"></span></a></div></div>');
+                } else {
+                    $(".modal-content").html('<div><div class="success-info"><h3>Due to the high demand on our products, this item is expected to be delivered after (Add 15 days on the current datetime function).</h3></div><div class="close-cartback"><a class="btn bg-green proceed" href="' + pageURL + '">Proceed to Cart<span class="fa fa-chevron-right" aria-hidden="true"></span></a></div></div>');
                 }
                 //console.log(response);
             },

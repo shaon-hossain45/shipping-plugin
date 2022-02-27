@@ -32,7 +32,7 @@
     $(document).ready(function() {
         // Close modal on button click
         $(document).on("click", '#close-add-to-cart', function() {
-            alert("hide");
+            //alert("hide");
             $("#add-to-cart-modal").remove();
         });
     });
@@ -57,28 +57,28 @@
 
 
 
-    function getCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(";");
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == " ") c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    }
+    // function getCookie(name) {
+    //     var nameEQ = name + "=";
+    //     var ca = document.cookie.split(";");
+    //     for (var i = 0; i < ca.length; i++) {
+    //         var c = ca[i];
+    //         while (c.charAt(0) == " ") c = c.substring(1, c.length);
+    //         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    //     }
+    //     return null;
+    // }
 
     /**
      * Check Cookie / isn"t exists ?
      * @type {[type]}
      */
-    var dataCookies = [];
+    // var dataCookies = [];
 
-    var check = getCookie("postal-code-confirmed");
-    if (check != "" && check != null) {
-        //alert("ji");
-        $("#post-code-modal").remove();
-    }
+    // var check = getCookie("postal-code-confirmed");
+    // if (check != "" && check != null) {
+    //     //alert("ji");
+    //     $("#post-code-modal").remove();
+    // }
 
 
 })(jQuery);

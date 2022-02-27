@@ -1,12 +1,30 @@
-<?php
+// function redirect_page() {
 
-function allmethod() {
-	echo 'icon';
-}
+// if (isset($_SERVER['HTTPS']) &&
+// ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
+// isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+// $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+// $protocol = 'https://';
+// }
+// else {
+// $protocol = 'http://';
+// }
 
-if ( ! isset( $_POST ) || ! isset( $_POST['security'] ) ) {
-	wp_send_json_error( 'Invalid data / security token sent.' );
-	wp_die();
-} else {
+// $currenturl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+// $currenturl_relative = wp_make_link_relative($currenturl);
 
-}
+// switch ($currenturl_relative) {
+
+// case '[/checkout/]':
+// $urlto = home_url('[/cart/]');
+// break;
+
+// default:
+// return;
+
+// }
+
+// if ($currenturl != $urlto)
+// exit( wp_redirect( $urlto ) );
+
+// }
