@@ -193,7 +193,13 @@ class ShippingZone {
 			return $outputHtml;
 	}
 
-
+	/**
+	 * Callback output
+	 *
+	 * @param array $cart_item_data
+	 * @param int   $product_id
+	 * @return array
+	 */
 	public function zipcode_modal() {
 		if ( ! isset( $_COOKIE['postal-code-confirmed'] ) && is_cart() ) {
 			echo $this->cart_page_validation();
@@ -208,7 +214,7 @@ class ShippingZone {
 	 * @return array
 	 */
 	public function shipping_sin_callback() {
-
+		// var_dump($_POST['security']);
 		if ( ! isset( $_POST ) || ! isset( $_POST['security'] ) ) {
 			wp_send_json_error( 'Invalid data / security token sent.' );
 			wp_die();
@@ -247,16 +253,16 @@ class ShippingZone {
 
 									if ( ( $act_id === $datain ) && ( ( $act_id === 'N8P' ) || ( $act_id === 'N8R' ) || ( $act_id === 'N8S' ) || ( $act_id === 'N8T' ) || ( $act_id === 'N8W' ) || ( $act_id === 'N9B' ) || ( $act_id === 'N9G' ) || ( $act_id === 'N9E' ) || ( $act_id === 'N8Y' ) || ( $act_id === 'N8X' ) ) ) {
 										$response['insert'] = 'windsor';
-										$set_cookie         = setcookie( $this->cookie_name, 'true', time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
+										$set_cookie         = setcookie( $this->cookie_name, $_POST['value'], time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
 									} elseif ( $act_id === $datain ) {
 										$response['insert'] = 'ontario';
-										$set_cookie         = setcookie( $this->cookie_name, 'true', time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
+										$set_cookie         = setcookie( $this->cookie_name, $_POST['value'], time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
 									} else {
 										$response['insert'] = 'no';
 									};
 
 									break;
-								}else{
+								} else {
 									$response['insert'] = 'fo';
 								}
 								// $this->code[] = $code;
@@ -281,20 +287,15 @@ class ShippingZone {
 
 
 
-
-
-
-
-
-	function filter_form_field_country( $field, $key, $args, $value ) {
-		// Only in checkout page for "billing" city field
-		if ( is_checkout() && 'billing_country' === $key ) {
-			$search  = esc_html__( 'Select a country / region&hellip;', 'woocommerce' ); // String to search
-			$replace = esc_html__( 'My new select prompt', 'woocommerce' ); // Replacement string
-			$field   = str_replace( $search, $replace, $field );
-		}
-		return $field;
-	}
+	// function filter_form_field_country( $field, $key, $args, $value ) {
+	// Only in checkout page for "billing" city field
+	// if ( is_checkout() && 'billing_country' === $key ) {
+	// $search  = esc_html__( 'Select a country / region&hellip;', 'woocommerce' ); // String to search
+	// $replace = esc_html__( 'My new select prompt', 'woocommerce' ); // Replacement string
+	// $field   = str_replace( $search, $replace, $field );
+	// }
+	// return $field;
+	// }
 
 
 
@@ -305,23 +306,23 @@ class ShippingZone {
 
 
 
-	function change_default_checkout_country() {
-		return 'CA'; // country code
-	}
+	// function change_default_checkout_country() {
+	// return 'CA'; // country code
+	// }
 
-	function change_default_checkout_state() {
-		return 'ON'; // state code
-	}
-	/**
-	 * Remove the country checkout field         */
+	// function change_default_checkout_state() {
+	// return 'ON'; // state code
+	// }
+	// /**
+	// * Remove the country checkout field         */
 
-	function njengah_override_checkout_fields( $fields ) {
+	// function njengah_override_checkout_fields( $fields ) {
 
-		unset( $fields['billing']['billing_country'] );
+	// unset( $fields['billing']['billing_country'] );
 
-		return $fields;
+	// return $fields;
 
-	}
+	// }
 
 	/**
 	 * If the billing country is "default", make sure the user gets an error saying it's required by setting it to empty.
@@ -329,15 +330,15 @@ class ShippingZone {
 	 * @param string $value The chosen (or not) billing country.
 	 * @return string The 2 character billing country or an empty string if none was chosen.
 	 */
-	public function fix_default_billing_country( $value ) {
-		// If this isn't the right field or the value isn't default, return the posted value.
-		if ( $value !== 'default' ) {
-			return $value;
-		}
+	// public function fix_default_billing_country( $value ) {
+	// If this isn't the right field or the value isn't default, return the posted value.
+	// if ( $value !== 'default' ) {
+	// return $value;
+	// }
 
-		// If it's the default, return an empty string to trigger the "required" bit.
-		return '';
-	}
+	// If it's the default, return an empty string to trigger the "required" bit.
+	// return '';
+	// }
 
 	// function ts_unrequire_wc_country_field( $fields ) {
 	// $fields['billing_country']['required'] = false;
@@ -373,12 +374,12 @@ class ShippingZone {
 	 * @param int   $product_id
 	 * @return array
 	 */
-	function checkout_country_fields_disabled( $fields ) {
-		$fields['billing']['billing_country']['custom_attributes']['disabled']   = 'disabled';
-		$fields['shipping']['shipping_country']['custom_attributes']['disabled'] = 'disabled';
+	// function checkout_country_fields_disabled( $fields ) {
+	// $fields['billing']['billing_country']['custom_attributes']['disabled']   = 'disabled';
+	// $fields['shipping']['shipping_country']['custom_attributes']['disabled'] = 'disabled';
 
-		return $fields;
-	}
+	// return $fields;
+	// }
 
 
 	/**
@@ -388,46 +389,67 @@ class ShippingZone {
 	 * @param int   $product_id
 	 * @return array
 	 */
-	public function readdonly_country_select_field( $fields ) {
-		// Set billing and shipping state to AU
-		// WC()->customer->set_billing_state('state');
+	// public function readdonly_country_select_field( $fields ) {
+	// Set billing and shipping state to AU
+	// WC()->customer->set_billing_state('state');
 
-		// Make billing and shipping country field read only
-		$fields['billing']['billing_state']['custom_attributes']   = array( 'disabled' => 'disabled' );
-		$fields['shipping']['shipping_state']['custom_attributes'] = array( 'disabled' => 'disabled' );
+	// Make billing and shipping country field read only
+	// $fields['billing']['billing_state']['custom_attributes']   = array( 'disabled' => 'disabled' );
+	// $fields['shipping']['shipping_state']['custom_attributes'] = array( 'disabled' => 'disabled' );
 
+	// return $fields;
+	// }
+
+
+
+	/**
+	 * @snippet       Change Input Field to Textarea @ WooCommerce Checkout
+	 * @how-to        Get CustomizeWoo.com FREE
+	 * @sourcecode    https://businessbloomer.com/?p=19122
+	 * @author        Rodolfo Melogli
+	 * @compatible    WooCommerce 2.4.7
+	 */
+
+	// Change address field at checkout
+
+	public function bbloomer_change_address_input_type( $fields ) {
+		$fields['billing']['billing_country']                                   = array(
+			'type'     => 'select',
+			'label'    => __( 'Country / Region' ),
+			'required' => true,
+			'options'  => array( 'CA' => 'Canada' ),
+		);
+		$fields['billing']['billing_state']                                     = array(
+			'type'     => 'select',
+			'label'    => __( 'Country / Region' ),
+			'required' => true,
+			'options'  => array( 'ON' => 'Ontario' ),
+		);
+		$fields['billing']['billing_postcode']['custom_attributes']['readonly'] = 'readonly';
 		return $fields;
 	}
 
-
-
-/**
- * @snippet       Change Input Field to Textarea @ WooCommerce Checkout
- * @how-to        Get CustomizeWoo.com FREE
- * @sourcecode    https://businessbloomer.com/?p=19122
- * @author        Rodolfo Melogli
- * @compatible    WooCommerce 2.4.7
- */
- 
-// Change address field at checkout
-
-function bbloomer_change_address_input_type( $fields ) {
-$fields['billing']['billing_country'] = array(
-	'type' => 'select',
-	'label' => __('Country / Region'),
-	'required' => true,
-	'options' => array('CA' => 'Canada')
-);
-$fields['billing']['billing_state'] = array(
-	'type' => 'select',
-	'label' => __('Country / Region'),
-	'required' => true,
-	'options' => array('ON' => 'Ontario')
-);
-return $fields;
-}
-
-
+	/**
+	 * Postal code static
+	 *
+	 * @param array $cart_item_data
+	 * @param int   $product_id
+	 * @return array
+	 */
+	public function customer_zipcode_jquery() {
+		?>
+<script>
+	(function($) {
+		<?php
+		// For cart
+		if ( is_checkout() && ! is_wc_endpoint_url() && isset( $_COOKIE['postal-code-confirmed'] ) ) :
+			?>
+				$('#billing_postcode').val("<?php echo sanitize_text_field( $_COOKIE['postal-code-confirmed'] ); ?>");
+			<?php endif; ?>
+	})(jQuery);
+</script>
+		<?php
+	}
 
 	/**
 	 * Cart page callback
@@ -512,6 +534,135 @@ return $fields;
 			$cart_url = wc_get_cart_url();
 			wp_redirect( $cart_url );
 		}
+	}
+
+
+	/**
+	 * Head zipcode update
+	 *
+	 * @param array $cart_item_data
+	 * @param int   $product_id
+	 * @return array
+	 */
+	public function popppg_n_clback() {
+		// var_dump($_POST['security']);
+		if ( ! isset( $_POST ) || ! isset( $_POST['security'] ) ) {
+			wp_send_json_error( 'Invalid data / security token sent.' );
+			wp_die();
+		} else {
+
+			$datain = substr( $_POST['value'], 0, 3 );
+			// var_dump($datain);
+
+			$response = array();
+
+			if ( class_exists( 'WC_Shipping_Zones' ) ) {
+				$zones = WC_Shipping_Zones::get_zones();
+
+				// var_dump($zones);
+
+				if ( ! empty( $zones ) ) {
+					foreach ( $zones as $zone_id => $zone ) {
+
+						// echo '<pre>';
+						// var_dump($zone);
+						// echo '</pre>';
+
+						// var_dump($zone['zone_locations']);
+
+						if ( ! empty( $zone['zone_locations'] ) ) {
+
+							foreach ( $zone['zone_locations'] as $key => $code ) {
+								$act_id = null;
+								// var_dump($key);
+								// var_dump($code->code);
+								// $windsor = array(""","","","","","","","");
+								$subtval = substr( $code->code, 0, 3 );
+								// var_dump($subtval);
+								if ( $datain == $subtval ) {
+									$act_id = $subtval;
+
+									if ( ( $act_id === $datain ) && ( ( $act_id === 'N8P' ) || ( $act_id === 'N8R' ) || ( $act_id === 'N8S' ) || ( $act_id === 'N8T' ) || ( $act_id === 'N8W' ) || ( $act_id === 'N9B' ) || ( $act_id === 'N9G' ) || ( $act_id === 'N9E' ) || ( $act_id === 'N8Y' ) || ( $act_id === 'N8X' ) ) ) {
+										$response['insert'] = 'windsor';
+										$set_cookie         = setcookie( $this->cookie_name, $_POST['value'], time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
+									} elseif ( $act_id === $datain ) {
+										$response['insert'] = 'ontario';
+										$set_cookie         = setcookie( $this->cookie_name, $_POST['value'], time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
+									} else {
+										$response['insert'] = 'no';
+									};
+
+									break;
+								} else {
+									$response['insert'] = 'fo';
+								}
+								// $this->code[] = $code;
+								// var_dump($code);
+							}
+						}
+					}
+				} else {
+					$zone                        = new WC_Shipping_Zone( 0 );
+					$this->shipping_zone_methods = $zone->get_shipping_methods();
+				}
+			}
+		}
+
+		$return_success = array(
+			'exists' => $response,
+		);
+		wp_send_json_success( $return_success );
+		wp_die();
+	}
+
+
+
+	/**
+	 * Callback output
+	 *
+	 * @param array $cart_item_data
+	 * @param int   $product_id
+	 * @return array
+	 */
+	public function zipcode_modal_update() {
+		// if ( isset( $_COOKIE['postal-code-confirmed'] ) ) {
+			echo $this->postalcode_hcontent();
+		// }
+	}
+
+	/**
+	 * Postal code output
+	 *
+	 * @param array $cart_item_data
+	 * @param int   $product_id
+	 * @return array
+	 */
+	public function postalcode_hcontent() {
+		if ( isset( $_COOKIE['postal-code-confirmed'] ) ) {
+			$valcookie = $_COOKIE['postal-code-confirmed'];
+		} else {
+			$valcookie = 'N8W1C3';
+		}
+		$output  = '';
+		$output .= '<div id="header-zip-code-form">
+			<div id="location-wrapper" data-store-dropdown="">
+				<div id="postal-code-wrapper">
+					<span id="header-zip-lb"><i class="fa fa-map-marker"></i>Postal Code:</span>
+					<span id="header-zip" type="text" class="header-zip-textbox au-header-zip-textbox" data-postal-code="">' . $valcookie . '</span>
+				</div>
+			</div><div class="dropdown-menu" aria-label="store-pop-over" id="store-pop-over">
+				<button class="btn pull-right" aria-label="closeBtn" id="close-btn">
+					<i class="fa fa-times"></i>
+				</button>
+				<div class="mklpo-medium">
+					<h4><strong>Your postal code</strong></h4>
+            <div style="display: flex; margin-left: 25px;"><input id="postal-code" type="text" aria-label="postalCodeUpdate" data-postal-code="" maxlength="6" rel="tooltip" data-placement="bottom" title="" data-content="Please enter a valid postal code" value="' . $valcookie . '">
+              <button class="btn postal-submit" data-postal-code-submit="">Update</button></div>
+				</div>
+				<h5 class="warning-message"><span class="error display-hidden" data-postal-code-error="">Please enter a valid postal code</span></h5>
+			</div>
+		</div>';
+		return $output;
 	}
 
 }

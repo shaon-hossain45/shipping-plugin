@@ -20,7 +20,7 @@ require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/shipping-
  *
  * @package    Shipping_Plugin
  * @subpackage Shipping_Plugin/public
- * @author     shaon <shaonhossain615@gmail.com>
+ * @author     Codingkart <shaonhossain615@gmail.com>
  */
 class Shipping_Plugin_Public {
 
@@ -127,6 +127,18 @@ class Shipping_Plugin_Public {
 			)
 		);
 
+		wp_enqueue_script( 'woocommerce-postal-hvalid', plugin_dir_url( __FILE__ ) . 'js/postcode-head-validation.js', array( 'jquery' ), '', true );
+		$ajax_noncelk = wp_create_nonce( 'ship_kkln_nonce' );
+		wp_localize_script(
+			'woocommerce-postal-hvalid',
+			'itechka_obj',
+			array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'action'   => 'popppg_n_clback',
+				'security' => $ajax_noncelk,
+			)
+		);
+
 		// if ( ( function_exists( 'is_cart' ) && is_cart() ) ) {
 		// wp_enqueue_script( 'woocommerce-postalcodekey', plugin_dir_url( __FILE__ ) . 'js/postcode-validation-key.js', array( 'jquery' ), '', true );
 		// }
@@ -160,28 +172,35 @@ class Shipping_Plugin_Public {
 		add_action( 'wp_ajax_shipping_sin_callback', array( $data, 'shipping_sin_callback' ) );
 		add_action( 'wp_ajax_nopriv_shipping_sin_callback', array( $data, 'shipping_sin_callback' ) );
 
+		add_action( 'wp_ajax_popppg_n_clback', array( $data, 'popppg_n_clback' ) );
+		add_action( 'wp_ajax_nopriv_popppg_n_clback', array( $data, 'popppg_n_clback' ) );
+
 		// add_action( 'wp_ajax_shing_n_clback', array( $data, 'shing_n_clback' ) );
 		// add_action( 'wp_ajax_nopriv_shing_n_clback', array( $data, 'shing_n_clback' ) );
 
 		// add_filter( 'woocommerce_checkout_fields', array( $data, 'checkout_country_fields_disabled' ) );
 		// add_filter( 'woocommerce_checkout_fields', array( $data, 'readdonly_country_select_field' ) );
 
-		//add_filter( 'default_checkout_billing_country', array( $data, 'change_default_checkout_country' ) );
-		//add_filter( 'default_checkout_billing_state', array( $data, 'change_default_checkout_state' ) );
+		// add_filter( 'default_checkout_billing_country', array( $data, 'change_default_checkout_country' ) );
+		// add_filter( 'default_checkout_billing_state', array( $data, 'change_default_checkout_state' ) );
 
-		//add_filter( 'default_checkout_shipping_country', array( $data, 'change_default_checkout_country' ) );
-		//add_filter( 'default_checkout_shipping_state', array( $data, 'change_default_checkout_state' ) );
+		// add_filter( 'default_checkout_shipping_country', array( $data, 'change_default_checkout_country' ) );
+		// add_filter( 'default_checkout_shipping_state', array( $data, 'change_default_checkout_state' ) );
 
 		// add_filter( 'woocommerce_billing_fields', array( $data, 'ts_unrequire_wc_country_field') );
 		// add_filter( 'woocommerce_default_address_fields' , array( $data, 'make_state_field_required'), 90, 1 );
 
-		//add_filter( 'woocommerce_form_field_country', array( $data, 'filter_form_field_country' ), 10, 4 );
+		// add_filter( 'woocommerce_form_field_country', array( $data, 'filter_form_field_country' ), 10, 4 );
 
 		// add_filter( 'woocommerce_process_checkout_field_billing_country', array( $data, 'fix_default_billing_country' ), 10, 1 );
 		// add_filter('woocommerce_checkout_fields', array( $data, 'njengah_override_checkout_fields') );
 		add_action( 'wp_head', array( $data, 'get_cookie_redirect' ) );
 
-		add_filter( 'woocommerce_checkout_fields' , array( $data, 'bbloomer_change_address_input_type' ), 10, 1 );
+		add_action( 'wp_footer', array( $data, 'customer_zipcode_jquery' ) );
+
+		add_action( 'wp_head', array( $data, 'zipcode_modal_update' ) );
+
+		add_filter( 'woocommerce_checkout_fields', array( $data, 'bbloomer_change_address_input_type' ), 10, 1 );
 
 	}
 

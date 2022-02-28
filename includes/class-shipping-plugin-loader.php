@@ -19,7 +19,7 @@
  *
  * @package    Shipping_Plugin
  * @subpackage Shipping_Plugin/includes
- * @author     shaon <shaonhossain615@gmail.com>
+ * @author     Codingkart <shaonhossain615@gmail.com>
  */
 class Shipping_Plugin_Loader {
 

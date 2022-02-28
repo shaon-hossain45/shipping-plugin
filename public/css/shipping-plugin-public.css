@@ -206,7 +206,10 @@ img {
 }
 
 .warning-message .error {
-    color: red;
+    color: #e9292c;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 14px;
 }
 
 .modal-content .success-info {
@@ -216,6 +219,7 @@ img {
 
 .modal-content .success-info h3 {
     color: #000;
+    font-size: 24px;
     font-weight: 700;
     text-align: center;
     margin-left: auto;
@@ -304,7 +308,7 @@ a.btn:focus {
 }
 
 .close-cartback a {
-    color: #fff;
+    color: #fff !important;
     font-size: 1.2rem;
     padding: 0.8rem 1rem;
     max-width: 250px;
@@ -316,4 +320,168 @@ a.btn:focus {
 .close-cartback .fa-chevron-right {
     font-size: 1rem;
     margin-left: 0.5rem;
+}
+
+
+/* Header zipcode */
+
+#header-zip-code-form {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#header-zip-code-form #store-pop-over {
+    width: 540px;
+    right: 10%;
+    -webkit-box-shadow: 0 2px 2px rgb(0 0 0 / 20%);
+    -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
+    box-shadow: 0 2px 2px #0003;
+    padding: 0 1.5em 1.5em;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 12px;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 0;
+    -webkit-box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+    box-shadow: 0 6px 12px #0000002d;
+    background-clip: padding-box;
+}
+
+.dropdown-menu.display-hidden {
+    display: block!important;
+}
+
+#header-zip-code-form #postal-code-wrapper {
+    display: inline-block;
+    margin-right: 0.6em;
+    padding-right: 0.8em;
+    cursor: pointer;
+}
+
+#header-zip-code-form #postal-code-wrapper #header-zip-lb {
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 0.625em;
+    line-height: 30px;
+    margin-right: 0.7rem;
+}
+
+#header-zip-code-form #postal-code-wrapper #header-zip-lb i {
+    font-size: 1.2em;
+    margin: 10px;
+    color: #333;
+}
+
+.popover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1060;
+    display: none;
+    max-width: 276px;
+    padding: 1px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    white-space: normal;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgb(0 0 0 / 20%);
+    box-shadow: 0 5px 10px rgb(0 0 0 / 20%);
+    line-break: auto;
+}
+
+#header-zip-code-form #store-pop-over button#close-btn {
+    background: 0 0;
+    color: #333;
+    vertical-align: middle;
+    border: none;
+    padding-right: 0;
+    padding-left: 0;
+    width: 50px;
+    height: 50px;
+    line-height: 25px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#header-zip-code-form #store-pop-over button {
+    background: #333;
+    font-size: 18px;
+    border: 1px solid #135a8a;
+    color: #fff;
+    border-radius: 2px;
+    height: 48px;
+}
+
+#header-zip-code-form .btn.postal-submit {
+    min-width: 100px;
+}
+
+.dropdown-menu .pull-right {
+    right: 0;
+    left: auto;
+}
+
+#header-zip-code-form #store-pop-over input#postal-code {
+    width: 40%;
+    padding-left: 0.7rem;
+    border: 1px solid #135a8a;
+    height: 48px;
+    min-width: 180px;
+}
+
+.textbox,
+input[type=email],
+input[type=password],
+input[type=tel],
+input[type=text],
+select {
+    background-color: #fff;
+    border: solid 2px #e6e6e6;
+    color: #333;
+    font-size: 14px;
+    height: 40px;
+}
+
+#header-zip-code-form #store-pop-over button#close-btn i.fa-times {
+    font-size: 2em;
+}
+
+.mklpo-medium {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }

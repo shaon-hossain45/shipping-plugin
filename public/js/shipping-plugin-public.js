@@ -35,6 +35,16 @@
             //alert("hide");
             $("#add-to-cart-modal").remove();
         });
+
+        $(document).on("click", '#close-btn', function() {
+            //alert("hide");
+            $(this).closest("#header-zip-code-form").find(".dropdown-menu").removeClass("display-hidden");
+        });
+        $(document).on("click", '#postal-code-wrapper', function() {
+            //alert("hide");
+            $(this).closest("#header-zip-code-form").find(".dropdown-menu").toggleClass("display-hidden");
+        });
+
     });
 
     $(document).on("input keypress", "input[maxlength]", function(e) {

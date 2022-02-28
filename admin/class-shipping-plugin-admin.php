@@ -18,7 +18,7 @@
  *
  * @package    Shipping_Plugin
  * @subpackage Shipping_Plugin/admin
- * @author     shaon <shaonhossain615@gmail.com>
+ * @author     Codingkart <shaonhossain615@gmail.com>
  */
 class Shipping_Plugin_Admin {
 
