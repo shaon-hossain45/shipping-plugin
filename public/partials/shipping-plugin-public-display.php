@@ -237,7 +237,7 @@ class ShippingZone {
 						// var_dump($zone);
 						// echo '</pre>';
 
-						// var_dump($zone['zone_locations']);
+						//var_dump($zone['zone_name']);
 
 						if ( ! empty( $zone['zone_locations'] ) ) {
 
@@ -250,7 +250,7 @@ class ShippingZone {
 								// var_dump($subtval);
 								if ( $datain == $subtval ) {
 									$act_id = $subtval;
-
+									//var_dump($act_id);
 									if ( ( $act_id === $datain ) && ( ( $act_id === 'N8P' ) || ( $act_id === 'N8R' ) || ( $act_id === 'N8S' ) || ( $act_id === 'N8T' ) || ( $act_id === 'N8W' ) || ( $act_id === 'N9B' ) || ( $act_id === 'N9G' ) || ( $act_id === 'N9E' ) || ( $act_id === 'N8Y' ) || ( $act_id === 'N8X' ) ) ) {
 										$response['insert'] = 'windsor';
 										$set_cookie         = setcookie( $this->cookie_name, $_POST['value'], time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
@@ -262,8 +262,6 @@ class ShippingZone {
 									};
 
 									break;
-								} else {
-									$response['insert'] = 'fo';
 								}
 								// $this->code[] = $code;
 								// var_dump($code);
@@ -593,8 +591,6 @@ class ShippingZone {
 									};
 
 									break;
-								} else {
-									$response['insert'] = 'fo';
 								}
 								// $this->code[] = $code;
 								// var_dump($code);
