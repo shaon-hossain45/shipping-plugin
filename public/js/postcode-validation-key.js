@@ -29,34 +29,34 @@
      * practising this, we should strive to set a better example in our own work.
      */
 
-    $(document).on('keydown', 'input', function() {
-        /*Your code*/
+    // $(document).on('keydown', 'input', function() {
+    //     /*Your code*/
 
-        var $inputkeyval = $('#postal-code-popup').val();
+    //     var $inputkeyval = $('#postal-code-popup').val();
 
-        var data = {
-            value: $inputkeyval,
-            action: itechk_obj.action,
-            security: itechk_obj.security
-        };
+    //     var data = {
+    //         value: $inputkeyval,
+    //         action: itechk_obj.action,
+    //         security: itechk_obj.security
+    //     };
 
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: itechk_obj.ajax_url,
-            data: data,
-            success: function(response) {
+    //     $.ajax({
+    //         type: "POST",
+    //         dataType: "json",
+    //         url: itechk_obj.ajax_url,
+    //         data: data,
+    //         success: function(response) {
 
-                if (response["data"]["exists"]["insert"] != 'done') {
-                    $("#post-code-modal span.error").removeClass("display-hidden");
-                } else if (response["data"]["exists"] == '') {
-                    $("#post-code-modal span.error").removeClass("display-hidden");
-                } else {
-                    $("#post-code-modal span.error").addClass("display-hidden");
-                }
-                //console.log(response);
-            },
-        });
-    });
+    //             if (response["data"]["exists"]["insert"] != 'done') {
+    //                 $("#post-code-modal span.error").removeClass("display-hidden");
+    //             } else if (response["data"]["exists"] == '') {
+    //                 $("#post-code-modal span.error").removeClass("display-hidden");
+    //             } else {
+    //                 $("#post-code-modal span.error").addClass("display-hidden");
+    //             }
+    //             //console.log(response);
+    //         },
+    //     });
+    // });
 
 })(jQuery);

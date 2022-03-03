@@ -253,9 +253,11 @@ class ShippingZone {
 									//var_dump($act_id);
 									if ( ( $act_id === $datain ) && ( ( $act_id === 'N8P' ) || ( $act_id === 'N8R' ) || ( $act_id === 'N8S' ) || ( $act_id === 'N8T' ) || ( $act_id === 'N8W' ) || ( $act_id === 'N9B' ) || ( $act_id === 'N9G' ) || ( $act_id === 'N9E' ) || ( $act_id === 'N8Y' ) || ( $act_id === 'N8X' ) ) ) {
 										$response['insert'] = 'windsor';
+										$response['pcode'] = $_POST['value'];
 										$set_cookie         = setcookie( $this->cookie_name, $_POST['value'], time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
 									} elseif ( $act_id === $datain ) {
 										$response['insert'] = 'ontario';
+										$response['pcode'] = $_POST['value'];
 										$set_cookie         = setcookie( $this->cookie_name, $_POST['value'], time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
 									} else {
 										$response['insert'] = 'no';
@@ -424,6 +426,20 @@ class ShippingZone {
 			'options'  => array( 'ON' => 'Ontario' ),
 		);
 		$fields['billing']['billing_postcode']['custom_attributes']['readonly'] = 'readonly';
+		
+		$fields['shipping']['shipping_country']                                   = array(
+			'type'     => 'select',
+			'label'    => __( 'Country / Region' ),
+			'required' => true,
+			'options'  => array( 'CA' => 'Canada' ),
+		);
+		$fields['shipping']['shipping_state']                                     = array(
+			'type'     => 'select',
+			'label'    => __( 'Country / Region' ),
+			'required' => true,
+			'options'  => array( 'ON' => 'Ontario' ),
+		);
+		$fields['shipping']['shipping_postcode']['custom_attributes']['readonly'] = 'readonly';
 		return $fields;
 	}
 
@@ -442,7 +458,7 @@ class ShippingZone {
 		// For cart
 		if ( is_checkout() && ! is_wc_endpoint_url() && isset( $_COOKIE['postal-code-confirmed'] ) ) :
 			?>
-				$('#billing_postcode').val("<?php echo sanitize_text_field( $_COOKIE['postal-code-confirmed'] ); ?>");
+				$('#billing_postcode, #shipping_postcode').val("<?php echo sanitize_text_field( $_COOKIE['postal-code-confirmed'] ); ?>");
 			<?php endif; ?>
 	})(jQuery);
 </script>
