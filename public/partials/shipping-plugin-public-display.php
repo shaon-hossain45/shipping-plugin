@@ -239,6 +239,8 @@ class ShippingZone {
 
 						//var_dump($zone['zone_name']);
 
+						$date=strtotime(date('Y-m-d'));
+
 						if ( ! empty( $zone['zone_locations'] ) ) {
 
 							foreach ( $zone['zone_locations'] as $key => $code ) {
@@ -254,12 +256,14 @@ class ShippingZone {
 									if ( ( $act_id === $datain ) && ( ( $act_id === 'N8P' ) || ( $act_id === 'N8R' ) || ( $act_id === 'N8S' ) || ( $act_id === 'N8T' ) || ( $act_id === 'N8W' ) || ( $act_id === 'N9B' ) || ( $act_id === 'N9G' ) || ( $act_id === 'N9E' ) || ( $act_id === 'N8Y' ) || ( $act_id === 'N8X' ) ) ) {
 										$response['insert'] = 'windsor';
 										$response['pcode'] = $_POST['value'];
-										$response['pdate'] = "03/06/2022";
+										$newDate = date('m/d/Y',strtotime('+2 days',$date));
+										$response['pdate'] = $newDate;
 										$set_cookie         = setcookie( $this->cookie_name, $_POST['value'], time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
 									} elseif ( $act_id === $datain ) {
 										$response['insert'] = 'ontario';
 										$response['pcode'] = $_POST['value'];
-										$response['pdate'] = "03/21/2022";
+										$newDate = date('m/d/Y',strtotime('+15 days',$date));
+										$response['pdate'] = $newDate;
 										$set_cookie         = setcookie( $this->cookie_name, $_POST['value'], time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
 									} else {
 										$response['insert'] = 'no';

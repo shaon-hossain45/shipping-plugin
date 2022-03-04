@@ -59,7 +59,7 @@ class Shipping_Plugin_Public {
 		 */
 		$ShippingZone_obj = new ShippingZone();
 		$this->dispatch_actions( $ShippingZone_obj );
-
+		
 	}
 
 	/**
