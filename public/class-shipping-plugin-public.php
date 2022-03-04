@@ -211,6 +211,8 @@ class Shipping_Plugin_Public {
 		//add_action( 'woocommerce_proceed_to_checkout', array( $data, 'change_proceed_to_checkout' ), 15 );
 
 		add_action('wp_footer', array( $data, 'customer_notes_jquery' ) );
+		add_action( 'woocommerce_checkout_update_order_meta', array( $data, 'my_custom_checkout_field_update_order_meta' ) );
+		add_action( 'woocommerce_admin_order_data_after_billing_address', array( $data, 'my_custom_checkout_field_display_admin_order_meta' ), 10, 1 );
 
 	}
 

@@ -747,4 +747,22 @@ class ShippingZone {
         <?php
     }
 
+
+/**
+ * Update the order meta with field value
+ */
+
+function my_custom_checkout_field_update_order_meta( $order_id ) {
+    if ( ! empty( $_POST['billing_options'] ) ) {
+        update_post_meta( $order_id, 'billing_options', sanitize_text_field( $_POST['billing_options'] ) );
+    }
+}
+/**
+ * Display field value on the order edit page
+ */
+
+function my_custom_checkout_field_display_admin_order_meta($order){
+    echo '<p><strong>'.__('Delivery Date').':</strong> ' . get_post_meta( $order->get_id(), 'billing_options', true ) . '</p>';
+}
+
 }
