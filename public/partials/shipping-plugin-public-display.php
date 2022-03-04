@@ -257,13 +257,17 @@ class ShippingZone {
 										$response['insert'] = 'windsor';
 										$response['pcode'] = $_POST['value'];
 										$newDate = date('m/d/Y',strtotime('+2 days',$date));
-										$response['pdate'] = $newDate;
+										//$response['pdate'] = $newDate;
+										$dateset_cookie         = setcookie( 'delivery-date', $newDate, time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
+
 										$set_cookie         = setcookie( $this->cookie_name, $_POST['value'], time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
 									} elseif ( $act_id === $datain ) {
 										$response['insert'] = 'ontario';
 										$response['pcode'] = $_POST['value'];
 										$newDate = date('m/d/Y',strtotime('+15 days',$date));
-										$response['pdate'] = $newDate;
+										//$response['pdate'] = $newDate;
+										$dateset_cookie         = setcookie( 'delivery-date', $newDate, time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
+
 										$set_cookie         = setcookie( $this->cookie_name, $_POST['value'], time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
 									} else {
 										$response['insert'] = 'no';
@@ -726,7 +730,7 @@ class ShippingZone {
         jQuery(function($) {
             <?php // For cart
             if( is_checkout() && ! is_wc_endpoint_url() ) : ?>
-                $('#datepicker').val("<?php echo sanitize_text_field( $_POST['customer_notes'] ); ?>");
+                $('#datepicker').val("<?php echo sanitize_text_field( $_COOKIE['delivery-date'] ) ?>");
             <?php endif; ?>
         });
         </script>

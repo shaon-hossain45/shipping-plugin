@@ -59,7 +59,7 @@ class Shipping_Plugin_Public {
 		 */
 		$ShippingZone_obj = new ShippingZone();
 		$this->dispatch_actions( $ShippingZone_obj );
-		
+
 	}
 
 	/**
@@ -208,7 +208,7 @@ class Shipping_Plugin_Public {
 		add_filter( 'woocommerce_checkout_fields', array( $data, 'bbloomer_change_address_input_type' ), 10, 1 );
 
 		add_filter('woocommerce_billing_fields', array( $data, 'cus_woocommerce_billing_fields') );
-		add_action( 'woocommerce_proceed_to_checkout', array( $data, 'change_proceed_to_checkout' ), 15 );
+		//add_action( 'woocommerce_proceed_to_checkout', array( $data, 'change_proceed_to_checkout' ), 15 );
 
 		add_action('wp_footer', array( $data, 'customer_notes_jquery' ) );
 
