@@ -69,12 +69,17 @@
             success: function(response) {
                 if (response["data"]["exists"]["insert"] == 'windsor') {
                     //alert("hi");
-                    //$("#post-code-modal").remove();
-                    $(".modal-content").html('<div><div class="success-info"><h3>We deliver to your area and your expected delivery time is between 24 to 48 hours.</h3></div><div class="close-cartback"><a class="btn bg-green proceed" href="' + pageURL + '">Proceed to Cart<span class="fa fa-chevron-right" aria-hidden="true"></span></a></div></div>');
+                    $("#post-code-modal").remove();
+                    //$(".modal-content").html('<div><div class="success-info"><h3>We deliver to your area and your expected delivery time is between 24 to 48 hours.</h3></div><div class="close-cartback"><a class="btn bg-green proceed" href="' + pageURL + '">Proceed to Cart<span class="fa fa-chevron-right" aria-hidden="true"></span></a></div></div>');
                     $("#header-zip").text(response["data"]["exists"]["pcode"]);
+                    $("#customer_notes").val(response["data"]["exists"]["pdate"]);
+                    //location.reload();
                 } else if (response["data"]["exists"]["insert"] == 'ontario') {
-                    $(".modal-content").html('<div><div class="success-info"><h3>Due to the high demand on our products, this item is expected to be delivered after (' + getDay + ' ' + getMonth + ', ' + getFullYear + ')</h3></div><div class="close-cartback"><a class="btn bg-green proceed" href="' + pageURL + '">Proceed to Cart<span class="fa fa-chevron-right" aria-hidden="true"></span></a></div></div>');
+                    $("#post-code-modal").remove();
+                    //$(".modal-content").html('<div><div class="success-info"><h3>Due to the high demand on our products, this item is expected to be delivered after (' + getDay + ' ' + getMonth + ', ' + getFullYear + ')</h3></div><div class="close-cartback"><a class="btn bg-green proceed" href="' + pageURL + '">Proceed to Cart<span class="fa fa-chevron-right" aria-hidden="true"></span></a></div></div>');
                     $("#header-zip").text(response["data"]["exists"]["pcode"]);
+                    $("#customer_notes").val(response["data"]["exists"]["pdate"]);
+                    //location.reload();
                 } else {
                     //$("#post-code-modal").remove();
                     $("#post-code-modal span.error").removeClass("display-hidden");

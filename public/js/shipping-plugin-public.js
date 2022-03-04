@@ -90,5 +90,11 @@
     //     $("#post-code-modal").remove();
     // }
 
+    $(function() {
+        $("#datepicker").datepicker({
+            minDate: 0
+        });
+    });
+
 
 })(jQuery);

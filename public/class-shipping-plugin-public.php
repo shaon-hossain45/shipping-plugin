@@ -83,6 +83,8 @@ class Shipping_Plugin_Public {
 
 		wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css', array(), '6.0.0', 'all' );
 
+		wp_enqueue_style( 'jquery-ui', 'https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css', array(), '1.13.1', 'all' );
+
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/shipping-plugin-public.css', array(), $this->version, 'all' );
 
 	}
@@ -138,6 +140,9 @@ class Shipping_Plugin_Public {
 				'security' => $ajax_noncelk,
 			)
 		);
+
+		wp_enqueue_script( 'jquery', 'https://code.jquery.com/jquery-3.6.0.js', array( 'jquery' ), '3.6.0', false );
+		wp_enqueue_script( 'jquery-ui', 'https://code.jquery.com/ui/1.13.1/jquery-ui.js', array( 'jquery' ), '1.13.1', false );
 
 		// if ( ( function_exists( 'is_cart' ) && is_cart() ) ) {
 		// wp_enqueue_script( 'woocommerce-postalcodekey', plugin_dir_url( __FILE__ ) . 'js/postcode-validation-key.js', array( 'jquery' ), '', true );
@@ -201,6 +206,11 @@ class Shipping_Plugin_Public {
 		add_action( 'wp_head', array( $data, 'zipcode_modal_update' ) );
 
 		add_filter( 'woocommerce_checkout_fields', array( $data, 'bbloomer_change_address_input_type' ), 10, 1 );
+
+		add_filter('woocommerce_billing_fields', array( $data, 'cus_woocommerce_billing_fields') );
+		add_action( 'woocommerce_proceed_to_checkout', array( $data, 'change_proceed_to_checkout' ), 15 );
+
+		add_action('wp_footer', array( $data, 'customer_notes_jquery' ) );
 
 	}
 

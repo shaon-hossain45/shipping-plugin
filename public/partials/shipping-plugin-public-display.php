@@ -254,10 +254,12 @@ class ShippingZone {
 									if ( ( $act_id === $datain ) && ( ( $act_id === 'N8P' ) || ( $act_id === 'N8R' ) || ( $act_id === 'N8S' ) || ( $act_id === 'N8T' ) || ( $act_id === 'N8W' ) || ( $act_id === 'N9B' ) || ( $act_id === 'N9G' ) || ( $act_id === 'N9E' ) || ( $act_id === 'N8Y' ) || ( $act_id === 'N8X' ) ) ) {
 										$response['insert'] = 'windsor';
 										$response['pcode'] = $_POST['value'];
+										$response['pdate'] = "03/06/2022";
 										$set_cookie         = setcookie( $this->cookie_name, $_POST['value'], time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
 									} elseif ( $act_id === $datain ) {
 										$response['insert'] = 'ontario';
 										$response['pcode'] = $_POST['value'];
+										$response['pdate'] = "03/21/2022";
 										$set_cookie         = setcookie( $this->cookie_name, $_POST['value'], time() + ( 60 * 60 * 24 * 30 ), '/', COOKIE_DOMAIN, is_ssl(), false );
 									} else {
 										$response['insert'] = 'no';
@@ -676,5 +678,55 @@ class ShippingZone {
 		</div>';
 		return $output;
 	}
+
+	/**
+	 * Delivery date picker
+	 *
+	 * @param array $cart_item_data
+	 * @param int   $product_id
+	 * @return array
+	 */
+	public function cus_woocommerce_billing_fields( $fields )
+    {
+    
+        $fields['billing_options'] = array(
+            'label' => __('Delivery Date', 'woocommerce'), // Add custom field label
+            'placeholder' => _x('Delivery Date', 'placeholder', 'woocommerce'), // Add custom field placeholder
+            'required' => true, // if field is required or not
+            'clear' => true, // add clear or not
+            'type' => 'text', // add field type
+            'class' => array('my-css'),    // add class name
+            'id' => 'datepicker',
+        );
+    
+        return $fields;
+    }
+	
+
+	// Process the checkout and overwriting the normal button
+    public function change_proceed_to_checkout() {
+        remove_action( 'woocommerce_proceed_to_checkout','woocommerce_button_proceed_to_checkout', 20 );
+        ?>
+        <form id="checkout_form" method="POST" action="<?php echo wc_get_checkout_url(); ?>">
+            <input type="hidden" name="customer_notes" id="customer_notes" value="">
+            <button type="submit" class="checkout-button button alt wc-forward" style="width:100%;"><?php
+            esc_html_e( 'Proceed to checkout', 'woocommerce' ) ?></button>
+        </form>
+        <?php
+    }
+
+	// Jquery script for cart and checkout pages
+    public function customer_notes_jquery() {
+        ?>
+        <script>
+        jQuery(function($) {
+            <?php // For cart
+            if( is_checkout() && ! is_wc_endpoint_url() ) : ?>
+                $('#datepicker').val("<?php echo sanitize_text_field( $_POST['customer_notes'] ); ?>");
+            <?php endif; ?>
+        });
+        </script>
+        <?php
+    }
 
 }
