@@ -673,7 +673,7 @@ class ShippingZone {
 		if ( isset( $_COOKIE['postal-code-confirmed'] ) ) {
 			$valcookie = $_COOKIE['postal-code-confirmed'];
 		} else {
-			$valcookie = 'N8W1C3';
+			$valcookie = '';
 		}
 		$output  = '';
 		$output .= '<div id="header-zip-code-form">
